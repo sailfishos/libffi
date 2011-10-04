@@ -1,0 +1,27 @@
+* Mon May 02 2011 Anas Nashif <anas.nashif@intel.com> - 3.0.9
+- Apply patch to fix includesdir instead of hacking in spec file
+
+* Sun May 01 2011 Anas Nashif <anas.nashif@intel.com> - 3.0.9
+- Clean up spec file
+
+* Thu Apr 30 2011 Liu, Xinyun <xinyun.liu@intel.com> - 3.0.9
+- Fix for BMC 16784.
+- Updated previous fix for libffi.pc. 
+
+* Thu Apr 28 2011 Junfeng Dong <junfeng.dong@intel.com> - 3.0.9
+- Fix for BMC 16784: Move the header files to standard /usr/include.
+
+* Thu Mar 04 2010 Damien Lespiau <damien.lespiau@intel.com> 3.0.9
+- Really apply the alignment fix patch
+
+* Fri Feb 26 2010 Neil Roberts <neil@linux.intel.com> 3.0.9
+- Add a patch to fix alignment problems
+  This was causing problems when using libffi with gobject-introspection
+
+* Thu Jan 28 2010 Jian-feng Ding <jian-feng.ding@intel.com> 3.0.9
+- Upgrade to 3.0.9, and enabled spectacle
+
+* Thu Sep 27 2009 Austin Zhang <austin.zhang@intel.com> - 3.0.8
+- Update to 3.0.8 into moblin (libffi was there but was removed, 
+  now, add it back).
+
