@@ -1,3 +1,6 @@
+* Sun Jan 15 2012 D Wadsworth <letters.random13@gmail.com> - 3.0.10
+- Fixes MER#121: update libffi to 3.0.10; delete upstreamed x86-Align patch
+
 * Mon May 02 2011 Anas Nashif <anas.nashif@intel.com> - 3.0.9
 - Apply patch to fix includesdir instead of hacking in spec file
 

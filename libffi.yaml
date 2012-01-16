@@ -1,6 +1,6 @@
 Name: libffi
 Summary: A portable foreign function interface library
-Version: 3.0.9
+Version: 3.0.10
 Release: 1
 Group: System/Libraries
 License: BSD
@@ -8,7 +8,6 @@ URL: http://sourceware.org/libffi
 Sources:
     - ftp://sourceware.org/pub/libffi/libffi-%{version}.tar.gz
 Patches:
-    - 0001-x86-Align-the-stack-to-16-bytes-before-making-the-ca.patch
     - includedir.patch
 Description: |
     Compilers for high level languages generate code that follow certain
