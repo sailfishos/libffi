@@ -1,3 +1,6 @@
+* Tue Feb 04 2014 Chris Leach <cxl000@hotmail.com> - 3.0.13
+- update libffi to 3.0.13
+
 * Sun Jan 15 2012 D Wadsworth <letters.random13@gmail.com> - 3.0.10
 - Fixes MER#121: update libffi to 3.0.10; delete upstreamed x86-Align patch
 
