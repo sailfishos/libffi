@@ -14,6 +14,9 @@ BuildRequires: texinfo
 BuildRequires: automake
 BuildRequires: libtool
 
+# See install section for more info
+Provides: libffi.so.5
+
 %description
 Compilers for high level languages generate code that follow certain
 conventions.  These conventions are necessary, in part, for separate
@@ -72,16 +75,30 @@ rm -rf %{buildroot}
 
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
+# Have both .so.5 and .so.6 as those are binary compatible, this prevents
+# the build breaking when we do the update.
+ln -sf libffi.so.6 %{buildroot}%{_libdir}/libffi.so.5
+
 %post -p /sbin/ldconfig
+
+%posttrans
+# This is here because for some reason when updating from libffi 3.0.x to 3.2.1
+# the symbolic link that is part of the package install section disappears.
+# It seems that rpm does not detect that the link target has changed and removes the
+# new link as part of the old package as both are libffi.so.5 files, eventhough one
+# points to libffi.so.5.0.10 and other to libffi.so.6.
+if [ ! -e %{_libdir}/libffi.so.5 ]; then
+  ln -sf libffi.so.6 %{_libdir}/libffi.so.5 || :
+fi
 
 %postun -p /sbin/ldconfig
 
 %post devel
-%install_info --info-dir=%_infodir %{_infodir}/libffi.info.gz
+%install_info --info-dir=%_infodir %{_infodir}/libffi.info.gz || :
 
 %postun devel
 if [ $1 = 0 ] ;then
-%install_info_delete --info-dir=%{_infodir} %{_infodir}/libffi.info.gz
+%install_info_delete --info-dir=%{_infodir} %{_infodir}/libffi.info.gz || :
 fi
 
 %files
