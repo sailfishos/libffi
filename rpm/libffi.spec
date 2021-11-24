@@ -2,7 +2,6 @@ Name:       libffi
 Summary:    A portable foreign function interface library
 Version:    3.2.1
 Release:    1
-Group:      System/Libraries
 License:    BSD
 URL:        http://sourceware.org/libffi
 Source0:    %{name}-%{version}.tar.gz
@@ -13,9 +12,6 @@ Requires(postun): /sbin/ldconfig
 BuildRequires: texinfo
 BuildRequires: automake
 BuildRequires: libtool
-
-# See install section for more info
-Provides: libffi.so.5
 
 %description
 Compilers for high level languages generate code that follow certain
@@ -47,7 +43,6 @@ between the two languages.
 
 %package devel
 Summary:    Development files for %{name}
-Group:      Development/Libraries
 Requires:   %{name} = %{version}-%{release}
 Requires(post): /sbin/install-info
 Requires(postun): /sbin/install-info
@@ -58,16 +53,14 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{version}/%{name}
 
-# includedir.patch
-%patch0 -p1
+%autosetup -p1 -n %{name}-%{version}/%{name}
 
 %build
 %reconfigure --disable-static \
     --includedir=%{_includedir}
 
-make %{?_smp_mflags}
+%make_build
 
 %install
 rm -rf %{buildroot}
@@ -75,21 +68,7 @@ rm -rf %{buildroot}
 
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 
-# Have both .so.5 and .so.6 as those are binary compatible, this prevents
-# the build breaking when we do the update.
-ln -sf libffi.so.6 %{buildroot}%{_libdir}/libffi.so.5
-
 %post -p /sbin/ldconfig
-
-%posttrans
-# This is here because for some reason when updating from libffi 3.0.x to 3.2.1
-# the symbolic link that is part of the package install section disappears.
-# It seems that rpm does not detect that the link target has changed and removes the
-# new link as part of the old package as both are libffi.so.5 files, eventhough one
-# points to libffi.so.5.0.10 and other to libffi.so.6.
-if [ ! -e %{_libdir}/libffi.so.5 ]; then
-  ln -sf libffi.so.6 %{_libdir}/libffi.so.5 || :
-fi
 
 %postun -p /sbin/ldconfig
 
@@ -103,11 +82,11 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc LICENSE
+%license LICENSE
 %{_libdir}/*.so.*
 
 %files devel
-%doc LICENSE README
+%doc README
 %defattr(-,root,root,-)
 %{_prefix}/include/ffi.h
 %{_prefix}/include/ffitarget.h
