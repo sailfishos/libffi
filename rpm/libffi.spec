@@ -4,7 +4,7 @@ Version:    3.2.1
 Release:    1
 Group:      System/Libraries
 License:    BSD
-URL:        http://sourceware.org/libffi
+URL:        https://github.com/sailfishos/libffi
 Source0:    %{name}-%{version}.tar.gz
 Patch0:     includedir.patch
 Requires(post): /sbin/ldconfig
