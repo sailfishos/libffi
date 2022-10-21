@@ -1,17 +1,17 @@
 Name:       libffi
 Summary:    A portable foreign function interface library
-Version:    3.2.1
+Version:    3.4.4
 Release:    1
 License:    BSD
-URL:        http://sourceware.org/libffi
+URL:        https://github.com/sailfishos/libffi
 Source0:    %{name}-%{version}.tar.gz
-Patch0:     includedir.patch
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
-BuildRequires: texinfo
 BuildRequires: automake
 BuildRequires: libtool
+# hack: make sure the old .so is available
+BuildRequires: libffi
 
 %description
 Compilers for high level languages generate code that follow certain
@@ -58,27 +58,21 @@ developing applications that use %{name}.
 
 %build
 %reconfigure --disable-static \
-    --includedir=%{_includedir}
+    --includedir=%{_includedir} \
+    --disable-docs
 
 %make_build
 
 %install
-rm -rf %{buildroot}
 %make_install
 
-rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+# include old version to ensure smooth upgrade. to be removed later.
+cp -a /%{_libdir}/libffi.so.6 $RPM_BUILD_ROOT/%{_libdir}
+cp -a /%{_libdir}/libffi.so.6.0.4 $RPM_BUILD_ROOT/%{_libdir}
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
-
-%post devel
-%install_info --info-dir=%_infodir %{_infodir}/libffi.info.gz || :
-
-%postun devel
-if [ $1 = 0 ] ;then
-%install_info_delete --info-dir=%{_infodir} %{_infodir}/libffi.info.gz || :
-fi
 
 %files
 %defattr(-,root,root,-)
@@ -86,11 +80,9 @@ fi
 %{_libdir}/*.so.*
 
 %files devel
-%doc README
 %defattr(-,root,root,-)
 %{_prefix}/include/ffi.h
 %{_prefix}/include/ffitarget.h
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/*.so
 %doc %{_mandir}/man3/*.gz
-%{_infodir}/libffi.info.gz
