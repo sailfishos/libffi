@@ -1,6 +1,6 @@
 Name:       libffi
 Summary:    A portable foreign function interface library
-Version:    3.4.4
+Version:    3.4.6
 Release:    1
 License:    BSD
 URL:        https://github.com/sailfishos/libffi
@@ -75,12 +75,10 @@ cp -a /%{_libdir}/libffi.so.6.0.4 $RPM_BUILD_ROOT/%{_libdir}
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %license LICENSE
 %{_libdir}/*.so.*
 
 %files devel
-%defattr(-,root,root,-)
 %{_prefix}/include/ffi.h
 %{_prefix}/include/ffitarget.h
 %{_libdir}/pkgconfig/*.pc
